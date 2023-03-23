@@ -1,13 +1,14 @@
 import {useState} from 'react';
 
+// This is the square component which is the child component of Board
 function Square({value, onSquareClick}) {
   return (
     <button className="square" onClick={onSquareClick}>{value}</button>
   );
 }
 
+// This is the Board component which consists of square components to be rendered 
 function Board({xIsNext, squares, onPlay}) {
-
   function handleClick(i){
     if(squares[i] || calculateWinner(squares)){
       return;
@@ -53,6 +54,9 @@ function Board({xIsNext, squares, onPlay}) {
   );
 }
 
+// This is the top level component to display the list of past moves
+// The history state will be placed here which will let you remove squares state from its child board component
+// This gives the Game component full control of the Board's data and re-rendering of the game itself
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -78,6 +82,7 @@ export default function Game() {
     } else {
       description = 'Go to game start';
     }
+    // This line of code allows user to jump to the state of the board the user wants to go based on the history
     return (
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
@@ -98,6 +103,7 @@ export default function Game() {
   );
 }
 
+// This function is a helper function which is used to calculate the winner of the game
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
